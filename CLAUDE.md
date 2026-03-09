@@ -31,6 +31,8 @@ package.json           # 2 deps: express, mime-types
 - **Lazy tree loading.** Directories are only fetched when expanded (click) or navigated into (double-click). This keeps large filesystems responsive.
 - **HTML relative assets.** HTML files are served via `/browsedir/*` (which maps to absolute paths) so that relative references to CSS/JS/images resolve correctly in the iframe.
 - **Port fallback.** If port 3000 is busy, the server auto-tries up to +10.
+- **PID file singleton.** Server writes PID to `/tmp/file-browser.pid` on startup, kills any previous instance first, cleans up on exit. Prevents stale zombie processes.
+- **macOS .app backgrounding.** The `.app` launch script uses `nohup` to background the server, polls until ready, then opens the browser and exits. This prevents the "not responding" state in macOS.
 
 ## API Endpoints
 
@@ -64,4 +66,6 @@ browse ~/code            # global command with path
 - The resizer disables `pointer-events` on the preview pane during drag to prevent iframes from stealing mouse events
 - `navigateTo()` manages browser-like back/forward history
 - Single-click expands folders inline; double-click navigates into them
-- The `.app` bundle uses a hardcoded path to the project directory in its launch script
+- The `.app` bundle uses a hardcoded path (`/Users/jaysrinivasan/code/finder-replacement`) in its launch script — must be updated if project moves
+- After changing the `.app`, must re-deploy: `rm -rf "/Applications/File Browser.app" && cp -r "File Browser.app" /Applications/`
+- Server logs go to `/tmp/file-browser.log` when launched from the `.app`

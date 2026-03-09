@@ -169,6 +169,27 @@ async function startServer() {
 
   const PORT = parseInt(process.env.PORT, 10) || 3000;
 
+  // Write PID file so we can clean up stale processes
+  const PID_FILE = path.join(os.tmpdir(), 'file-browser.pid');
+
+  // Kill any previous instance
+  try {
+    const oldPid = require('fs').readFileSync(PID_FILE, 'utf8').trim();
+    if (oldPid) {
+      try { process.kill(parseInt(oldPid), 'SIGTERM'); } catch {}
+    }
+  } catch {}
+
+  // Write current PID
+  require('fs').writeFileSync(PID_FILE, String(process.pid));
+
+  // Clean up PID file on exit
+  process.on('exit', () => {
+    try { require('fs').unlinkSync(PID_FILE); } catch {}
+  });
+  process.on('SIGINT', () => process.exit());
+  process.on('SIGTERM', () => process.exit());
+
   const tryListen = (port) => {
     const server = app.listen(port, '127.0.0.1', () => {
       const url = `http://localhost:${port}`;
