@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Browser</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css"
+    id="hljs-light">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css"
+    id="hljs-dark" disabled>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <button id="back-btn" class="nav-btn" title="Go back" disabled>‹</button>
+      <button id="forward-btn" class="nav-btn" title="Go forward" disabled>›</button>
+      <button id="up-btn" class="nav-btn" title="Go to parent directory" disabled>↑</button>
+    </div>
+    <div class="path-bar-wrapper">
+      <input type="text" id="path-bar" placeholder="Enter a path..." autocomplete="off" spellcheck="false">
+    </div>
+    <button id="theme-toggle" title="Toggle dark mode">◐</button>
+  </header>
+  <main>
+    <aside id="sidebar">
+      <div id="bookmarks"></div>
+      <div class="sidebar-divider"></div>
+      <div class="tree-toolbar">
+        <input type="text" id="filter-input" placeholder="Filter files..." autocomplete="off">
+      </div>
+      <div id="tree-container" tabindex="0"></div>
+    </aside>
+    <div id="resizer"></div>
+    <section id="preview-pane">
+      <div id="preview-placeholder">Select a file to preview</div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
